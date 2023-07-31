@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.lenovo.carcamerashow.Camera2TextureView
+            android:id="@+id/remoteTextureView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            />
+    </FrameLayout>
+    <com.lenovo.carcamerashow.Camera2TextureView
+        android:id="@+id/localSurfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        />
+    <SurfaceView
+        android:id="@+id/videoSurface"
+        android:layout_width="200dp"
+        android:layout_height="250dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_alignParentRight="true"/>
+
+    <Button
+        android:id="@+id/frontCamera"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="前摄像头"
+        android:onClick="frontCamera"
+        />
+
+    <Button
+        android:id="@+id/backCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="后摄像头"
+        android:visibility="gone"
+        android:layout_marginLeft="100dp"
+        android:onClick="backCamera"
+        />
+
+    <Button
+        android:id="@+id/remoteCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="远程摄像头"
+        android:layout_marginLeft="150dp"
+        android:onClick="remoteCamera"
+        />
+
+</RelativeLayout>
