@@ -46,7 +46,8 @@ public class Camera2TextureView extends TextureView implements TextureView.Surfa
 
     private Context mContext;
 
-    private String mCameraId;
+    private String mCameraIdBack;
+    private String mCameraIdFront;
     private CameraCharacteristics mBackCameraCharacteristics;
 
     private CameraManager mCameraManager;
@@ -102,14 +103,19 @@ public class Camera2TextureView extends TextureView implements TextureView.Surfa
         mImageReader.setOnImageAvailableListener(this, mBackgroundHandler);
     }
 
-    public void openCamera() {
+    public void openCamera(String f) {
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         try {
             prepareCameraOutputs();
             if (isAvailable()) {
-                mCameraManager.openCamera(mCameraId, mStateCallback, mBackgroundHandler);
+                if (f.equals("back")){
+                    mCameraManager.openCamera(mCameraIdBack, mStateCallback, mBackgroundHandler);
+                }else {
+                    mCameraManager.openCamera(mCameraIdFront, mStateCallback, mBackgroundHandler);
+                }
+
             } else {
                 setSurfaceTextureListener(this);
             }
@@ -130,7 +136,7 @@ public class Camera2TextureView extends TextureView implements TextureView.Surfa
         closePreviewSession();
         closeCameraDevice();
         closeImageReader();
-        stopBackgroundThread();
+//        stopBackgroundThread();
     }
 
     public void onDestroy() {
@@ -195,7 +201,9 @@ public class Camera2TextureView extends TextureView implements TextureView.Surfa
 
     private void stopBackgroundThread() {
         if (Build.VERSION.SDK_INT > 17) {
-            mBackgroundThread.quitSafely();
+            if (mBackgroundThread !=null){
+                mBackgroundThread.quitSafely();
+            }
         } else mBackgroundThread.quit();
 
         try {
@@ -246,10 +254,11 @@ public class Camera2TextureView extends TextureView implements TextureView.Surfa
                 Integer facing = cameraCharacteristics.get(CameraCharacteristics.LENS_FACING);
                 //如果是前置摄像头就continue，我们这里只用后置摄像头
                 if (facing != null && facing == CameraCharacteristics.LENS_FACING_FRONT) {
-                    continue;
+                    this.mCameraIdFront = cameraId;
+                }else {
+                    this.mCameraIdBack = cameraId;
                 }
-                //保存cameraId
-                this.mCameraId = cameraId;
+
                 this.mBackCameraCharacteristics = cameraCharacteristics;
             }
         } catch (Exception e) {
@@ -293,7 +302,7 @@ public class Camera2TextureView extends TextureView implements TextureView.Surfa
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
 //        configureTransform(width,height);
-        openCamera();
+        openCamera(mCameraIdFront);
     }
 
     @Override

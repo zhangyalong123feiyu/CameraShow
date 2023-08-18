@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/telephe">
+    <ImageView
+        android:layout_width="91dp"
+        android:layout_height="91dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="106dp"
+        android:src="@mipmap/head" />
+
+
+    <TextView
+        android:id="@+id/time2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="18839207890"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="320dp"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/time2"
+        android:text="北京 移动"
+        android:layout_marginLeft="28dp"
+        android:textColor="#858181"
+        android:textSize="15sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+       android:layout_marginTop="430dp">
+
+        <TextView
+            android:id="@+id/name2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="19dp"
+            android:text="视频通话"
+            android:layout_marginLeft="25dp"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+
+        <TextView
+            android:id="@+id/duration2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name2"
+            android:layout_marginLeft="9dp"
+            android:textColor="#FFFFFF"
+            android:layout_toRightOf="@id/duration2"
+            android:text="1分钟"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/call"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="29dp"
+            android:layout_centerVertical="true"
+            android:onClick="call"
+            android:src="@mipmap/call" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
