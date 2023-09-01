@@ -33,6 +33,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/userLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -116,6 +117,7 @@
                 android:layout_height="wrap_content"
                 android:text="翻转"
                 android:textSize="13sp"
+                android:textColor="@color/white"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/switchCamera"
                 android:layout_marginTop="5dp"/>
@@ -141,6 +143,7 @@
                 android:layout_height="wrap_content"
                 android:text="扬声器"
                 android:textSize="13sp"
+                android:textColor="@color/white"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/speaker"
                 android:layout_marginTop="5dp"/>
@@ -165,6 +168,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="座舱摄像头"
+                android:textColor="@color/white"
                 android:textSize="13sp"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/carCamera"
@@ -190,6 +194,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
+                android:textColor="@color/white"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/mirc"
                 android:layout_marginTop="5dp"

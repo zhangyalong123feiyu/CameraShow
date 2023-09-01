@@ -41,7 +41,7 @@ public class SocketLive {
     }
     public void start() {
         try {
-            URI url = new URI("ws://192.168.137.44:12005");
+            URI url = new URI("ws://192.168.137.140:12005");
             myWebSocketClient = new MyWebSocketClient(url);
             myWebSocketClient.connect();
         } catch (Exception e) {

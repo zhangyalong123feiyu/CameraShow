@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -17,41 +18,64 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.TextureView;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity implements SocketLive.SocketCallback,SurfaceHolder.Callback{
+public class MainActivity extends AppCompatActivity implements SocketLive.SocketCallback, SurfaceHolder.Callback {
 
     private Camera2TextureView remoteTextureView;
     private DecodePlayerLiveH264 decodePlayerLiveH264;
     private Camera2TextureView localTextureView;
     private SocketLive socketLive;
     private MediaPlayer player;
-    private boolean isFrontCamera=true;
+    private boolean isFrontCamera = true;
+    private RelativeLayout userLayout;
+
+    private boolean canIn = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //全屏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().requestFeature(Window.FEATURE_NO_TITLE);//必须在setContentView方法前执行
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initView(2400,1080);
+        initView(2400, 1080);
         openCamera();
-        connectRemoteView();
+        connectServer();
+        initRemoteTextureView();
+//        connectRemoteView();
     }
 
     private void connectRemoteView() {
-        Timer timer=new Timer();
+        Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                initVideoView();
+                                localTextureView.closeCamera();
+                                remoteTextureView.setVisibility(View.VISIBLE);
+                                localTextureView.setVisibility(View.GONE);
+                                userLayout.setVisibility(View.GONE);
+                            }
+                        });
 
-                connectServer();
-                initRemoteTextureView();
-                Log.e("TAG","----------------connecet remote");
+                    }
+                });
             }
-        },3000);
+        }, 3000);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -60,54 +84,12 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
         surface.setVisibility(View.VISIBLE);
         SurfaceHolder surfaceHolder = surface.getHolder();
         surfaceHolder.addCallback(this);
-
-//        surface.setOnTouchListener(new View.OnTouchListener() {
-//            private float downX;
-//            private float downY;
-//
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                switch (event.getAction()) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        //按下位置
-//                        downX = event.getRawX();
-//                        downY = event.getRawY();
-//
-//                        break;
-//                    case MotionEvent.ACTION_MOVE:
-//
-//                        float moveX = event.getRawX();
-//                        float moveY = event.getRawY();
-//
-//                        float dx = moveX - downX;
-//                        float dy = moveY - downY;
-//
-//                        float tX = v.getTranslationX() + dx;
-//                        float tY = v.getTranslationY() + dy;
-//
-//                        v.setTranslationX(tX);
-//                        v.setTranslationY(tY);
-//
-//                        // 下一次按下位置
-//                        downX = event.getRawX();
-//                        downY = event.getRawY();
-//                        break;
-//                    case MotionEvent.ACTION_UP:
-//
-//                        //复位
-////                        v.setTranslationX(0);
-////                        v.setTranslationY(0);
-//                        break;
-//                }
-//
-//                return true;
-//            }
-//        });
     }
 
-    private void initView(int viewWidth,int viewHeight) {
+    private void initView(int viewWidth, int viewHeight) {
         ImageView handleUp = findViewById(R.id.handleUp);
         handleUp.setOnClickListener(v -> {
+            finish();
             android.os.Process.killProcess(android.os.Process.myPid());
         });
         localTextureView = findViewById(R.id.localSurfaceView);
@@ -116,8 +98,8 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
         remoteTextureView.setRotation(90);
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) remoteTextureView.getLayoutParams();
         params.width = viewWidth;
-        params.height =viewHeight;
-        params.gravity= Gravity.CENTER;
+        params.height = viewHeight;
+        params.gravity = Gravity.CENTER;
         remoteTextureView.setLayoutParams(params);
 
         findViewById(R.id.switchCamera).setOnClickListener(v -> {
@@ -128,44 +110,49 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
             remoteTextureView.setVisibility(View.VISIBLE);
             socketLive.start();
             localTextureView.closeCamera();
+
         });
+
+        userLayout = findViewById(R.id.userLayout);
+
     }
 
     private void openCamera() {
 
-        if (isFrontCamera){
+        if (isFrontCamera) {
             localTextureView.setVisibility(View.VISIBLE);
             remoteTextureView.setVisibility(View.GONE);
-            if (socketLive!=null){
+            if (socketLive != null) {
                 socketLive.close();
             }
             localTextureView.closeCamera();
             localTextureView.openCamera("front");
-            isFrontCamera=false;
-        }else {
+            isFrontCamera = false;
+        } else {
             localTextureView.setVisibility(View.VISIBLE);
             remoteTextureView.setVisibility(View.GONE);
-            if (socketLive!=null){
+            if (socketLive != null) {
                 socketLive.close();
             }
             localTextureView.closeCamera();
             localTextureView.openCamera("back");
-            isFrontCamera=true;
+            isFrontCamera = true;
 
         }
 
     }
 
 
-    public void remoteCamera(View view){
+    public void remoteCamera(View view) {
         localTextureView.setVisibility(View.GONE);
         remoteTextureView.setVisibility(View.VISIBLE);
         socketLive.start();
         localTextureView.closeCamera();
 
     }
+
     private void connectServer() {
-        socketLive=new SocketLive(this);
+        socketLive = new SocketLive(this);
         socketLive.start();
     }
 
@@ -179,8 +166,8 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
 
                 decodePlayerLiveH264 = new DecodePlayerLiveH264();
                 decodePlayerLiveH264.initDecoder(remoteSurface);
-                initVideoView();
-                Log.e("TAG","width is -------"+width+"height--------"+height);
+
+                Log.e("TAG", "width is -------" + width + "height--------" + height);
             }
 
             @Override
@@ -203,13 +190,18 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
 
     @Override
     public void callBack(byte[] data) {
-        if (decodePlayerLiveH264 != null) {
-            decodePlayerLiveH264.callBack(data);
-        }
-        if (player!=null){
-            if (!player.isPlaying()){
+        if (player != null) {
+            if (!player.isPlaying()) {
                 player.start();
             }
+        }
+        if (canIn) {
+            canIn = false;
+            connectRemoteView();
+        }
+
+        if (decodePlayerLiveH264 != null) {
+            decodePlayerLiveH264.callBack(data);
         }
 
 
@@ -222,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
         player.setDisplay(holder);
         //设置显示视频显示在SurfaceView上
         try {
-            player.setDataSource(this, Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.video));
+            player.setDataSource(this, Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.video));
             player.prepare();
             player.start();
         } catch (Exception e) {

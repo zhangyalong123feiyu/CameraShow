@@ -19,6 +19,7 @@ public class TelePActivity extends Activity {
     private void initView() {
         findViewById(R.id.call).setOnClickListener(v -> {
             startActivity(new Intent(this,MainActivity.class));
+            finish();
         });
     }
 }
