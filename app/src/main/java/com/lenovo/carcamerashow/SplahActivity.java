@@ -17,7 +17,6 @@ public class SplahActivity extends Activity {
 
     public void call(View view){
         startActivity(new Intent(this,TelePActivity.class));
-        finish();
     }
 
 }

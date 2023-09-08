@@ -48,10 +48,12 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView(2400, 1080);
-        openCamera();
-        connectServer();
+//        connectServer();
         initRemoteTextureView();
         connectRemoteView();
+
+        this.socketLive=TelePActivity.socketLive;
+        TelePActivity.socketLive.setSocketBack(this);
     }
 
     private void connectRemoteView() {
@@ -91,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
 //            android.os.Process.killProcess(android.os.Process.myPid());
         });
         localTextureView = findViewById(R.id.localSurfaceView);
-
         remoteTextureView = findViewById(R.id.remoteTextureView);
         remoteTextureView.setRotation(90);
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) remoteTextureView.getLayoutParams();
@@ -113,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
         });
 
         userLayout = findViewById(R.id.userLayout);
-
     }
 
     private void openCamera() {
@@ -162,11 +162,13 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
         remoteTextureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
             @Override
             public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+
                 Surface remoteSurface = new Surface(surface);
-
                 decodePlayerLiveH264 = new DecodePlayerLiveH264();
-                decodePlayerLiveH264.initDecoder(remoteSurface);
 
+
+                decodePlayerLiveH264.initDecoder(remoteSurface);
+                openCamera();
                 Log.e("TAG", "width is -------" + width + "height--------" + height);
             }
 
@@ -188,22 +190,16 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
 
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        player.stop();
-//        player.release();
-//        player=null;
-//        socketLive.close();
-//    }
-
     @Override
     protected void onStop() {
         super.onStop();
-        player.stop();
-        player.release();
-        player=null;
-        socketLive.close();
+        if (player!=null){
+            player.stop();
+            player.release();
+            player=null;
+            socketLive.close();
+        }
+
     }
 
     @Override

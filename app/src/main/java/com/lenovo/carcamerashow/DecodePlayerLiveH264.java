@@ -26,6 +26,7 @@ public class DecodePlayerLiveH264 {
                     surface,
                     null, 0);
             mediaCodec.start();
+            Log.e("TAG","init decoder success ---------");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -34,6 +35,7 @@ public class DecodePlayerLiveH264 {
 
     public void callBack(byte[] data) {
         Log.i(TAG, "服务端 接收到消息: " + data.length);
+        if (mediaCodec==null)return;
         int index= mediaCodec.dequeueInputBuffer(100000);
         if (index >= 0) {
             ByteBuffer inputBuffer = mediaCodec.getInputBuffer(index);

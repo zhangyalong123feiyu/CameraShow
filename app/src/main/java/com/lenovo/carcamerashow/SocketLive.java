@@ -31,6 +31,12 @@ public class SocketLive {
 
     }
 
+    public SocketLive() {
+    }
+
+    public void setSocketBack(SocketCallback callback){
+        this.socketCallback=callback;
+    }
     public void close() {
         try {
             if(myWebSocketClient != null) myWebSocketClient.close();
@@ -70,7 +76,9 @@ public class SocketLive {
         public void onMessage(ByteBuffer bytes) {
             byte[] buf = new byte[bytes.remaining()];
             bytes.get(buf);
-            socketCallback.callBack(buf);
+            if (socketCallback!=null){
+                socketCallback.callBack(buf);
+            }
         }
 
         @Override

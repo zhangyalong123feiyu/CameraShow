@@ -4,23 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextureView
-            android:id="@+id/remoteTextureView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            />
-    </FrameLayout>
-
     <com.lenovo.carcamerashow.Camera2TextureView
         android:id="@+id/localSurfaceView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+         />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <TextureView
+            android:id="@+id/remoteTextureView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            />
+
+    </FrameLayout>
 
     <SurfaceView
         android:id="@+id/videoSurface"
