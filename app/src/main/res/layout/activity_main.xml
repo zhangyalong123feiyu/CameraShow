@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.lenovo.carcamerashow.Camera2TextureView
+        <TextureView
             android:id="@+id/remoteTextureView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -162,7 +162,7 @@
                 android:id="@+id/carCamera"
                 android:layout_width="54dp"
                 android:layout_height="54dp"
-                android:src="@mipmap/carcamera" />
+                android:src="@drawable/carcameraselector" />
 
             <TextView
                 android:layout_width="wrap_content"

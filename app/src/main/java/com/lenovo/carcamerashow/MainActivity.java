@@ -29,7 +29,7 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements SocketLive.SocketCallback, SurfaceHolder.Callback {
 
-    private Camera2TextureView remoteTextureView;
+    private TextureView remoteTextureView;
     private DecodePlayerLiveH264 decodePlayerLiveH264;
     private Camera2TextureView localTextureView;
     private SocketLive socketLive;
@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
     private RelativeLayout userLayout;
 
     private boolean canIn = true;
+    private ImageView carCamera;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
         openCamera();
         connectServer();
         initRemoteTextureView();
-//        connectRemoteView();
+        connectRemoteView();
     }
 
     private void connectRemoteView() {
@@ -65,9 +66,6 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
                             @Override
                             public void run() {
                                 initVideoView();
-                                localTextureView.closeCamera();
-                                remoteTextureView.setVisibility(View.VISIBLE);
-                                localTextureView.setVisibility(View.GONE);
                                 userLayout.setVisibility(View.GONE);
                             }
                         });
@@ -90,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
         ImageView handleUp = findViewById(R.id.handleUp);
         handleUp.setOnClickListener(v -> {
             finish();
-            android.os.Process.killProcess(android.os.Process.myPid());
+//            android.os.Process.killProcess(android.os.Process.myPid());
         });
         localTextureView = findViewById(R.id.localSurfaceView);
 
@@ -101,16 +99,17 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
         params.height = viewHeight;
         params.gravity = Gravity.CENTER;
         remoteTextureView.setLayoutParams(params);
-
+        carCamera=findViewById(R.id.carCamera);
         findViewById(R.id.switchCamera).setOnClickListener(v -> {
             openCamera();
+            carCamera.setSelected(false);
         });
-        findViewById(R.id.carCamera).setOnClickListener(v -> {
+        carCamera.setOnClickListener(v -> {
             localTextureView.setVisibility(View.GONE);
             remoteTextureView.setVisibility(View.VISIBLE);
-            socketLive.start();
+//            socketLive.start();
             localTextureView.closeCamera();
-
+            carCamera.setSelected(true);
         });
 
         userLayout = findViewById(R.id.userLayout);
@@ -123,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
             localTextureView.setVisibility(View.VISIBLE);
             remoteTextureView.setVisibility(View.GONE);
             if (socketLive != null) {
-                socketLive.close();
+//                socketLive.close();
             }
             localTextureView.closeCamera();
             localTextureView.openCamera("front");
@@ -132,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
             localTextureView.setVisibility(View.VISIBLE);
             remoteTextureView.setVisibility(View.GONE);
             if (socketLive != null) {
-                socketLive.close();
+//                socketLive.close();
             }
             localTextureView.closeCamera();
             localTextureView.openCamera("back");
@@ -154,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
     private void connectServer() {
         socketLive = new SocketLive(this);
         socketLive.start();
+        Log.e("TAG","begin to connect server");
     }
 
     private void initRemoteTextureView() {
@@ -188,6 +188,24 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
 
     }
 
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        player.stop();
+//        player.release();
+//        player=null;
+//        socketLive.close();
+//    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        player.stop();
+        player.release();
+        player=null;
+        socketLive.close();
+    }
+
     @Override
     public void callBack(byte[] data) {
         if (player != null) {
@@ -195,10 +213,10 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
                 player.start();
             }
         }
-        if (canIn) {
-            canIn = false;
-            connectRemoteView();
-        }
+//        if (canIn) {
+//            canIn = false;
+//            connectRemoteView();
+//        }
 
         if (decodePlayerLiveH264 != null) {
             decodePlayerLiveH264.callBack(data);
