@@ -17,7 +17,7 @@
             android:layout_marginTop="19dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="孟户强"
+            android:text="陌生人"
             android:layout_marginLeft="25dp"
             android:textColor="@color/white"
             android:textSize="15sp" />
@@ -54,5 +54,29 @@
 
     </RelativeLayout>
 
+    <EditText
+        android:id="@+id/edit"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textColor="@color/white"
+        android:layout_below="@id/layout1"
+        android:textColorHint="@color/white"
+        android:hint="输入ip:192.168.137.230"/>
+    <Button
+        android:id="@+id/go"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/edit"
+        android:text="go"/>
+    <ImageView
+        android:layout_width="57dp"
+        android:layout_height="57dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="58dp"
+        android:src="@mipmap/colla" />
 
 </RelativeLayout>

@@ -302,6 +302,7 @@ public class Camera2TextureView extends TextureView implements TextureView.Surfa
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
 //        configureTransform(width,height);
+        Log.e("TAG","onSurfaceTextureAvailable -------------");
         openCamera(mCameraIdFront);
     }
 

@@ -22,6 +22,7 @@ public class SocketLive {
     private static final String TAG = "zyl";
     private SocketCallback socketCallback;
     private ExecutorService service;
+    public static String webIp="192.168.137.230";
     MyWebSocketClient myWebSocketClient;
 
     public SocketLive(SocketCallback socketCallback ) {
@@ -47,7 +48,7 @@ public class SocketLive {
     }
     public void start() {
         try {
-            URI url = new URI("ws://192.168.137.237:12005");
+            URI url = new URI("ws://"+webIp+":12005");
             myWebSocketClient = new MyWebSocketClient(url);
             myWebSocketClient.connect();
         } catch (Exception e) {

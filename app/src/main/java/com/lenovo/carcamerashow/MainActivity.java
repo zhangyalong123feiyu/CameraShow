@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);//必须在setContentView方法前执行
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initView(2400, 1080);
+        initView(2700, 2400); //2400, 1080
 //        connectServer();
         initRemoteTextureView();
         connectRemoteView();
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
         });
         localTextureView = findViewById(R.id.localSurfaceView);
         remoteTextureView = findViewById(R.id.remoteTextureView);
-        remoteTextureView.setRotation(90);
+//        remoteTextureView.setRotation(90);
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) remoteTextureView.getLayoutParams();
         params.width = viewWidth;
         params.height = viewHeight;

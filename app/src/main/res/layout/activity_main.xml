@@ -189,7 +189,7 @@
                 android:id="@+id/mirc"
                 android:layout_width="54dp"
                 android:layout_height="54dp"
-                android:src="@mipmap/micr" />
+                android:src="@mipmap/mirc" />
 
             <TextView
                 android:layout_width="wrap_content"
