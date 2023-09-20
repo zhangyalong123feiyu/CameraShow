@@ -22,7 +22,7 @@ public class SocketLive {
     private static final String TAG = "zyl";
     private SocketCallback socketCallback;
     private ExecutorService service;
-    public static String webIp="192.168.137.230";
+    public static String webIp=""; //192.168.137.230
     MyWebSocketClient myWebSocketClient;
 
     public SocketLive(SocketCallback socketCallback ) {

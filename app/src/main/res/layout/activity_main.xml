@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="163dp"
-            android:text="孟户强"
+            android:text="陌生人"
             android:textColor="#FFFFFF"
             android:textSize="26sp" />
 

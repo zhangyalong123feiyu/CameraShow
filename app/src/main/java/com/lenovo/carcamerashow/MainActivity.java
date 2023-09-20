@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
         initRemoteTextureView();
         connectRemoteView();
 
-        this.socketLive=TelePActivity.socketLive;
+        this.socketLive = TelePActivity.socketLive;
         TelePActivity.socketLive.setSocketBack(this);
     }
 
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
         params.height = viewHeight;
         params.gravity = Gravity.CENTER;
         remoteTextureView.setLayoutParams(params);
-        carCamera=findViewById(R.id.carCamera);
+        carCamera = findViewById(R.id.carCamera);
         findViewById(R.id.switchCamera).setOnClickListener(v -> {
             openCamera();
             carCamera.setSelected(false);
@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
             localTextureView.setVisibility(View.GONE);
             remoteTextureView.setVisibility(View.VISIBLE);
 //            socketLive.start();
+            isFrontCamera=!isFrontCamera;  //控制摄像头是否翻转
             localTextureView.closeCamera();
             carCamera.setSelected(true);
         });
@@ -118,26 +119,27 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
 
     private void openCamera() {
 
-        if (isFrontCamera) {
-            localTextureView.setVisibility(View.VISIBLE);
-            remoteTextureView.setVisibility(View.GONE);
-            if (socketLive != null) {
+            if (isFrontCamera) {
+                localTextureView.setVisibility(View.VISIBLE);
+                remoteTextureView.setVisibility(View.GONE);
+                if (socketLive != null) {
 //                socketLive.close();
-            }
-            localTextureView.closeCamera();
-            localTextureView.openCamera("front");
-            isFrontCamera = false;
-        } else {
-            localTextureView.setVisibility(View.VISIBLE);
-            remoteTextureView.setVisibility(View.GONE);
-            if (socketLive != null) {
+                }
+                localTextureView.closeCamera();
+                localTextureView.openCamera("front");
+                isFrontCamera = false;
+            } else {
+                localTextureView.setVisibility(View.VISIBLE);
+                remoteTextureView.setVisibility(View.GONE);
+                if (socketLive != null) {
 //                socketLive.close();
-            }
-            localTextureView.closeCamera();
-            localTextureView.openCamera("back");
-            isFrontCamera = true;
+                }
+                localTextureView.closeCamera();
+                localTextureView.openCamera("back");
+                isFrontCamera = true;
 
-        }
+            }
+
 
     }
 
@@ -153,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
     private void connectServer() {
         socketLive = new SocketLive(this);
         socketLive.start();
-        Log.e("TAG","begin to connect server");
+        Log.e("TAG", "begin to connect server");
     }
 
     private void initRemoteTextureView() {
@@ -193,10 +195,10 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
     @Override
     protected void onStop() {
         super.onStop();
-        if (player!=null){
+        if (player != null) {
             player.stop();
             player.release();
-            player=null;
+            player = null;
             socketLive.close();
         }
 
