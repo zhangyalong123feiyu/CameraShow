@@ -50,16 +50,16 @@ public class SplahActivity extends Activity implements WifiP2pManager.Connection
 
             startActivity(new Intent(this,TelePActivity.class));
         });
-        initWifiP2P();
-        receiver = new WiFiDirectBroadcastReceiver(manager, channel, this);
-        registerReceiver(receiver, intentFilter);
-        receiver.setDeviceListioner(this);
-
-        sharedHelper=new SharedHelper(this);
-        SocketLive.webIp=sharedHelper.readIp();
-        if (TextUtils.isEmpty(SocketLive.webIp)){
-            Toast.makeText(this,"请等待网络连接",Toast.LENGTH_LONG).show();
-        }
+//        initWifiP2P();
+//        receiver = new WiFiDirectBroadcastReceiver(manager, channel, this);
+//        registerReceiver(receiver, intentFilter);
+//        receiver.setDeviceListioner(this);
+//
+//        sharedHelper=new SharedHelper(this);
+//        SocketLive.webIp=sharedHelper.readIp();
+//        if (TextUtils.isEmpty(SocketLive.webIp)){
+//            Toast.makeText(this,"请等待网络连接",Toast.LENGTH_LONG).show();
+//        }
     }
 
     public void call(View view){
@@ -85,7 +85,7 @@ public class SplahActivity extends Activity implements WifiP2pManager.Connection
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                connectClientDevice("72:f8:78:ff:90:58");
+                connectClientDevice("a6:04:50:b2:66:39");
             }
         }, 1000, 2000);
     }

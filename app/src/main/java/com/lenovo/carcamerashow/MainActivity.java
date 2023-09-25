@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);//必须在setContentView方法前执行
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initView(2700, 2400); //2400, 1080
+        initView(2275, 1280); //2400, 1080
 //        connectServer();
         initRemoteTextureView();
         connectRemoteView();
@@ -189,6 +190,8 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
 
             }
         });
+
+//        remoteTextureView.getSurfaceTexture().
 
     }
 
