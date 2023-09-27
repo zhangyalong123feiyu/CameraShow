@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
 
     private boolean canIn = true;
     private ImageView carCamera;
+    private boolean runningBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,14 +197,20 @@ public class MainActivity extends AppCompatActivity implements SocketLive.Socket
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        runningBack=AppUtil.isBackground(this);
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
-        if (player != null) {
-            player.stop();
-            player.release();
-            player = null;
-            socketLive.close();
-        }
+//        if (player != null) {
+//            player.stop();
+//            player.release();
+//            player = null;
+//            socketLive.close();
+//        }
 
     }
 
