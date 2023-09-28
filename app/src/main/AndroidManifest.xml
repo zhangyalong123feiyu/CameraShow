@@ -43,15 +43,15 @@
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
         </activity>
-        <activity android:name=".SplahActivity" android:exported="true">
+        <activity android:name=".SplahActivity" android:exported="true" android:screenOrientation="portrait">
             <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-        <activity android:name=".CallActivity"/>
-        <activity android:name=".TelePActivity"/>
+        <activity android:name=".CallActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".TelePActivity" android:screenOrientation="portrait"/>
         <receiver android:name=".WiFiDirectBroadcastReceiver"/>
     </application>
 

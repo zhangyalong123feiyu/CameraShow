@@ -19,8 +19,8 @@ public class DecodePlayerLiveH264 {
             final MediaFormat format = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, 1920, 1080);
             format.setInteger(MediaFormat.KEY_BIT_RATE, 2500000);
 //            format.setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Flexible);
-            format.setInteger(MediaFormat.KEY_FRAME_RATE, 15);
-            format.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 2);
+            format.setInteger(MediaFormat.KEY_FRAME_RATE, 30);
+            format.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1);
 
             mediaCodec.configure(format,
                     surface,
